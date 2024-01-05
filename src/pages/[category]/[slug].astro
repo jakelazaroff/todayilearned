@@ -21,7 +21,7 @@ const { Content } = await Astro.props.render();
 
 <HTML title={`[${info.category}] ${info.title}`} image={`../../og/${Astro.props.slug}.png`}>
   <Layout slug={Astro.props.slug}>
-    <article class="content">
+    <article class="content" data-pagefind-body>
       <Content />
     </article>
   </Layout>

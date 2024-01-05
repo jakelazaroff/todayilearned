@@ -1,4 +1,6 @@
 ---
+import Search from "astro-pagefind/components/Search";
+
 import Navigation from "../component/Navigation.astro";
 
 interface Props {
@@ -11,10 +13,8 @@ interface Props {
     <a class="title" href="/"> Today I Learned</a>
     <p class="blurb">A collection of useful things I've learned.</p>
     <p class="blurb">By <a href="https://jakelazaroff.com">Jake Lazaroff</a></p>
+    <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false }} />
     <Navigation slug={Astro.props.slug} />
-  </nav>
-  <main class="main">
-    <slot />
     <ul class="footer">
       <li>
         <a href="https://github.com/jakelazaroff/todayilearned">
@@ -41,6 +41,9 @@ interface Props {
         </a>
       </li>
     </ul>
+  </nav>
+  <main class="main">
+    <slot />
   </main>
 </div>
 
@@ -89,6 +92,14 @@ interface Props {
     text-decoration: none;
     color: black;
     font-weight: bold;
+  }
+
+  :global(#search) {
+    margin-block-start: 16px;
+  }
+
+  :global(#search:has(.pagefind-ui__results:not(:empty))) + :global(*) {
+    display: none;
   }
 
   .footer {

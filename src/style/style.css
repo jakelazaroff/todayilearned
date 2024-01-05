@@ -2,15 +2,21 @@
 @import "./reset.css";
 
 @layer base {
+  :root {
+    --font-body: "Overpass", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", mono;
+    --color-primary: #845ef7;
+  }
+
   body {
-    font-family: "Overpass", system-ui, sans-serif;
-    height: 100%;
+    font-family: var(--font-body);
     letter-spacing: -0.05ch;
     font-variant-ligatures: none;
+    accent-color: var(--color-primary);
   }
 
   a {
-    color: #845ef7;
+    color: var(--color-primary);
     text-decoration: none;
   }
 
@@ -19,8 +25,16 @@
   }
 
   code {
-    font-family: "JetBrains Mono", mono;
+    font-family: var(--font-mono);
     font-weight: bold;
     font-size: round(0.95em, 1px);
   }
+}
+
+:root {
+  --pagefind-ui-border-width: 1px !important;
+  --pagefind-ui-border-radius: 4px !important;
+  --pagefind-ui-primary: var(--color-primary) !important;
+  --pagefind-ui-font: var(--font-body) !important;
+  --pagefind-ui-border: #00000022 !important;
 }
