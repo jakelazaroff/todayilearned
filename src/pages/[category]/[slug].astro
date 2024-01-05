@@ -5,10 +5,7 @@ export async function getStaticPaths() {
   const entries = await getCollection("til");
   return entries.map(entry => {
     const [category, slug] = entry.slug.split("/");
-    return {
-      params: { category, slug },
-      props: entry
-    };
+    return { params: { category, slug }, props: entry };
   });
 }
 
@@ -20,7 +17,7 @@ const info = await getInfo(Astro.props);
 const { Content } = await Astro.props.render();
 ---
 
-<HTML title={`[${info.category}] ${info.title}`}>
+<HTML title={`[${info.category}] ${info.title}`} image={`../../og/${Astro.props.slug}.png`}>
   <Layout slug={Astro.props.slug}>
     <article class="content">
       <Content />
