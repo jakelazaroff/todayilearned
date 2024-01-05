@@ -60,7 +60,7 @@
   }
 
   :where(ol, ul):not([class]) {
-    list-style: initial;
+    list-style: revert;
     padding-inline-start: 1.5em;
     padding-inline-start: round(1.5em, 1px);
   }
