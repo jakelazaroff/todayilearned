@@ -1,0 +1,46 @@
+---
+interface Props {
+  date: Date;
+  category: string;
+}
+---
+
+<span class="info">
+  <time class="time" datetime={Astro.props.date.toISOString()}>
+    {
+      Astro.props.date.toLocaleDateString("en-us", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      })
+    }
+  </time>
+  <span class="category" data-pagefind-meta="category" data-pagefind-weight="10"
+    >{Astro.props.category}</span
+  >
+</span>
+
+<style>
+  .info {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: lowercase;
+    color: #00000099;
+    font-family: "JetBrains Mono";
+  }
+
+  .category {
+    position: relative;
+    top: -1px;
+  }
+
+  .category::before {
+    content: "/";
+    position: relative;
+    top: 1px;
+    margin-inline: 8px;
+    text-decoration: none;
+    color: #00000022;
+    font-weight: bold;
+  }
+</style>

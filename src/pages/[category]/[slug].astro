@@ -13,6 +13,7 @@ type Props = CollectionEntry<"til">;
 
 import HTML from "../../layout/HTML.astro";
 import Layout from "../../layout/Layout.astro";
+import Info from "../../component/Info.astro";
 import { getInfo } from "../../util/entry";
 
 const info = await getInfo(Astro.props);
@@ -23,43 +24,52 @@ const { Content } = await Astro.props.render();
   <Layout slug={Astro.props.slug}>
     <article class="content" data-pagefind-body>
       <Content />
+      <footer class="footer">
+        <Info date={info.date} category={info.category} />
+      </footer>
     </article>
   </Layout>
-</HTML>
 
-<style>
-  .content {
-    max-width: max(960px, 80ch);
-    overflow-x: hidden;
+  <style>
+    .content {
+      display: flex;
+      flex-direction: column;
+      max-width: max(960px, 80ch);
+      overflow-x: hidden;
 
-    @media (min-width: 960px) {
-      overflow: visible;
+      @media (min-width: 960px) {
+        overflow: visible;
+      }
     }
-  }
 
-  .content > :global(:first-child:not([class])) {
-    margin: 0;
-  }
+    .content > :global(:first-child:not([class])) {
+      margin: 0;
+    }
 
-  .content :global(.astro-code) {
-    padding: 16px;
-    border-radius: 4px;
-    font-size: round(0.95em, 1px);
-    line-height: 1.75;
-    word-wrap: normal;
-    overflow: auto;
-    max-width: 100%;
-  }
+    .content :global(.astro-code) {
+      padding: 16px;
+      border-radius: 4px;
+      font-size: round(0.95em, 1px);
+      line-height: 1.75;
+      word-wrap: normal;
+      overflow: auto;
+      max-width: 100%;
+    }
 
-  .content :global(.astro-code) :global(code) {
-    font-weight: normal;
-  }
+    .content :global(.astro-code) :global(code) {
+      font-weight: normal;
+    }
 
-  .content :global(img) {
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 0 0 1px #00000022;
-    margin-inline: auto;
-    width: auto;
-  }
-</style>
+    .content :global(img) {
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px #00000022;
+      margin-inline: auto;
+      width: auto;
+    }
+
+    .footer {
+      margin-top: auto;
+    }
+  </style>
+</HTML>

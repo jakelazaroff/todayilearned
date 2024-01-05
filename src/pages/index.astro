@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import HTML from "../layout/HTML.astro";
 import Layout from "../layout/Layout.astro";
+import Info from "../component/Info.astro";
 import { getInfo } from "../util/entry";
 
 const entries = await getCollection("til").then(entries => Promise.all(entries.map(getInfo)));
@@ -25,16 +26,7 @@ const entries = await getCollection("til").then(entries => Promise.all(entries.m
             .slice(0, 5)
             .map(entry => (
               <li class="entry">
-                <span class="info">
-                  <time class="time" datetime={entry.date.toISOString()}>
-                    {entry.date.toLocaleDateString("en-us", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric"
-                    })}
-                  </time>
-                  <span class="category">{entry.category}</span>
-                </span>
+                <Info date={entry.date} category={entry.category} />
 
                 <a class="title" href={entry.href}>
                   {entry.title}
@@ -62,29 +54,6 @@ const entries = await getCollection("til").then(entries => Promise.all(entries.m
     display: flex;
     flex-direction: column;
     gap: 24px;
-  }
-
-  .info {
-    display: block;
-    font-size: 0.75rem;
-    text-transform: lowercase;
-    color: #00000099;
-    font-family: "JetBrains Mono";
-  }
-
-  .category {
-    position: relative;
-    top: -1px;
-  }
-
-  .category::before {
-    content: "/";
-    position: relative;
-    top: 1px;
-    margin-inline: 8px;
-    text-decoration: none;
-    color: #00000022;
-    font-weight: bold;
   }
 
   .title {
