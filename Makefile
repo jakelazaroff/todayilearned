@@ -7,9 +7,10 @@ dev: link  ## Run the development webserver
 	@bun dev
 
 build: link  ## Build for production
-	@bun build
+	@bun run build
 
 link: ## Create symlinks for the `til` submodule in `src/content/til`
+	@mkdir -p ./src/content/til
 	@for dir in $(dir $(wildcard til/*/.)); do ln -sf "../../../$$dir" "./src/content/til"; done
 
 ##@ Help

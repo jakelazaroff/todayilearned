@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
   const entries = await getCollection("til");
@@ -8,6 +8,8 @@ export async function getStaticPaths() {
     return { params: { category, slug }, props: entry };
   });
 }
+
+type Props = CollectionEntry<"til">;
 
 import HTML from "../../layout/HTML.astro";
 import Layout from "../../layout/Layout.astro";
