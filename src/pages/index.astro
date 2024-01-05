@@ -1,0 +1,97 @@
+---
+import { getCollection } from "astro:content";
+import HTML from "../layout/HTML.astro";
+import Layout from "../layout/Layout.astro";
+import { getInfo } from "../util/entry";
+
+const entries = await getCollection("til").then(entries => Promise.all(entries.map(getInfo)));
+---
+
+<HTML>
+  <Layout>
+    <div class="content">
+      <h2>Welcome!</h2>
+      <p>
+        My repository of things I've learned. Mostly programming related. Part knowledge base, part
+        microblog, part digital garden.
+      </p>
+      <p>{entries.length} TILs so far!</p>
+      <h2>Recent TILs</h2>
+      <ul class="recents">
+        {
+          entries
+            .sort((a, b) => b.date.getTime() - a.date.getTime())
+            .slice(0, 5)
+            .map(entry => (
+              <li class="entry">
+                <span class="info">
+                  <time class="time" datetime={entry.date.toISOString()}>
+                    {entry.date.toLocaleDateString("en-us", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric"
+                    })}
+                  </time>
+                  <span class="category">{entry.category}</span>
+                </span>
+
+                <a class="title" href={entry.href}>
+                  {entry.title}
+                </a>
+
+                <Fragment set:html={entry.excerpt} />
+              </li>
+            ))
+        }
+      </ul>
+    </div>
+  </Layout>
+</HTML>
+
+<style>
+  .content {
+    max-width: 80ch;
+  }
+
+  .content > :first-child:not([class]) {
+    margin-block-start: 0;
+  }
+
+  .recents {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .info {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: lowercase;
+    color: #00000099;
+    font-family: "JetBrains Mono";
+  }
+
+  .category {
+    position: relative;
+    top: -1px;
+  }
+
+  .category::before {
+    content: "/";
+    position: relative;
+    top: 1px;
+    margin-inline: 8px;
+    text-decoration: none;
+    color: #00000022;
+    font-weight: bold;
+  }
+
+  .title {
+    display: block;
+    margin-block: 4px;
+  }
+
+  .entry > :global(p) {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,26 @@
+@import "./fonts.css";
+@import "./reset.css";
+
+@layer base {
+  body {
+    font-family: "Overpass", system-ui, sans-serif;
+    height: 100%;
+    letter-spacing: -0.05ch;
+    font-variant-ligatures: none;
+  }
+
+  a {
+    color: #845ef7;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  code {
+    font-family: "JetBrains Mono", mono;
+    font-weight: bold;
+    font-size: round(0.95em, 1px);
+  }
+}

@@ -1,0 +1,79 @@
+---
+import { getCollection } from "astro:content";
+
+import { getInfo } from "../util/entry";
+
+const entries = await getCollection("til");
+
+type Info = Awaited<ReturnType<typeof getInfo>>;
+const toc = new Map<string, Info[]>();
+
+for (const entry of entries) {
+  const info = await getInfo(entry);
+  const list = toc.get(info.category) || [];
+  list.push(info);
+  toc.set(info.category, list);
+}
+
+interface Props {
+  slug?: string;
+}
+---
+
+<dl class="nav">
+  {
+    [...toc.entries()].map(([category, links]) => (
+      <>
+        <dt class="header">{category}</dt>
+        {links.map(link => (
+          <dd class="item">
+            <a
+              class="link"
+              class:list={{ active: link.slug === Astro.props.slug }}
+              href={link.href}
+            >
+              {link.title}
+            </a>
+          </dd>
+        ))}
+      </>
+    ))
+  }
+</dl>
+
+<style>
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    line-height: 1.25;
+  }
+
+  .header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 16px;
+    margin-block-start: 32px;
+    font-family: "JetBrains Mono";
+    font-style: italic;
+    font-weight: bold;
+  }
+
+  .header::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background-color: #00000022;
+  }
+
+  .link {
+    display: block;
+    text-wrap: pretty;
+  }
+
+  .active {
+    font-weight: 900;
+  }
+</style>

@@ -1,0 +1,83 @@
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+    color: currentColor;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+
+  ol,
+  ul {
+    list-style: none;
+  }
+
+  :not([class]) {
+    h1&,
+    h2&,
+    h3&,
+    h4&,
+    h5&,
+    h6& {
+      margin-block: round(0.75em, 1px);
+    }
+
+    ol&,
+    ul& {
+      list-style: initial;
+      padding-inline-start: round(1.5em, 1px);
+    }
+
+    p&,
+    ol&,
+    ul& {
+      margin-block: round(1em, 1px);
+    }
+
+    li& {
+      margin-block: round(0.5em, 1px);
+    }
+  }
+}
