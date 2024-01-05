@@ -1,3 +1,4 @@
 [submodule "til"]
 	path = til
 	url = git@github.com:jakelazaroff/til.git
+	branch = main
