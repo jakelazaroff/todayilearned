@@ -1,0 +1,12 @@
+---
+interface Props {
+  icon: string;
+  size?: number;
+}
+
+const { icon, size = 16 } = Astro.props;
+---
+
+<svg xmlns="http://www.w3.org/2000/svg" width={size} height={size}>
+  <use href={`/icons.svg#${icon}`}></use>
+</svg>

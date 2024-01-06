@@ -1,12 +1,15 @@
 .DEFAULT_GOAL = help
 
 ##@ Development
-.PHONY: dev build link
+.PHONY: clean link dev build
+
+clean:
+	@rm -rf dist
 
 dev: link  ## Run the development webserver
 	@bun dev
 
-build: link  ## Build for production
+build: clean link  ## Build for production
 	@bun run build
 
 link: ## Create symlinks for the `til` submodule in `src/content/til`
