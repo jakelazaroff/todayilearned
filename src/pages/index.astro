@@ -22,7 +22,7 @@ const entries = await getTILs().then(entries => Promise.all(entries.map(getInfo)
         {
           entries
             .sort((a, b) => b.date.getTime() - a.date.getTime())
-            .slice(0, 5)
+            .slice(0, 10)
             .map(entry => (
               <li class="entry">
                 <Info date={entry.date} category={entry.category} />
