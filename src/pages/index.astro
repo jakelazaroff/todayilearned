@@ -1,11 +1,10 @@
 ---
-import { getCollection } from "astro:content";
 import HTML from "../layout/HTML.astro";
 import Layout from "../layout/Layout.astro";
 import Info from "../component/Info.astro";
-import { getInfo } from "../util/entry";
+import { getInfo, getTILs } from "../util/entry";
 
-const entries = await getCollection("til").then(entries => Promise.all(entries.map(getInfo)));
+const entries = await getTILs().then(entries => Promise.all(entries.map(getInfo)));
 ---
 
 <HTML>

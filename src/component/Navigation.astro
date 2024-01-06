@@ -1,9 +1,7 @@
 ---
-import { getCollection } from "astro:content";
+import { getInfo, getTILs } from "../util/entry";
 
-import { getInfo } from "../util/entry";
-
-const entries = await getCollection("til");
+const entries = await getTILs();
 
 type Info = Awaited<ReturnType<typeof getInfo>>;
 const toc = new Map<string, Info[]>();

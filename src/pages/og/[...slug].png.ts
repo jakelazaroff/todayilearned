@@ -1,7 +1,8 @@
-import { getCollection, getEntryBySlug, type CollectionEntry } from "astro:content";
+import { getEntryBySlug, type CollectionEntry } from "astro:content";
+import { getInfo, getTILs } from "../../util/entry";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("til");
+  const entries = await getTILs();
   return entries.map(post => ({
     params: { slug: post.slug }
   }));
@@ -11,7 +12,6 @@ import fs from "node:fs/promises";
 import satori from "satori";
 import sharp from "sharp";
 import type { APIRoute } from "astro";
-import { getInfo } from "../../util/entry";
 
 export const GET: APIRoute = async function GET({ params }) {
   const overpass = await fs.readFile("./src/style/overpass-regular.ttf");

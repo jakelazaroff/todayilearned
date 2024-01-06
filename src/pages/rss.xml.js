@@ -1,14 +1,13 @@
 import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
 import { marked } from "marked";
 
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-import { getInfo } from "../util/entry";
+import { getInfo, getTILs } from "../util/entry";
 
 /** @param {import("astro").APIContext} ctx */
 export async function GET(ctx) {
   const title = SITE_TITLE;
-  const entries = await getCollection("til").then(entries => Promise.all(entries.map(getInfo)));
+  const entries = await getTILs().then(entries => Promise.all(entries.map(getInfo)));
 
   return rss({
     title,

@@ -1,4 +1,4 @@
-import type { CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import { exec, type ExecOptions } from "node:child_process";
 import { marked } from "marked";
 
@@ -14,6 +14,14 @@ function run(cmd: string, options?: ExecOptions) {
 async function created(slug: string) {
   const res = await run(`git log --follow --format=%ad --date=unix ${slug}.md`, { cwd: "./til" });
   return res.stdout.toString().trim().split("\n").at(-1) || "";
+}
+
+export async function getTILs() {
+  const tils = await getCollection("til");
+  return tils.map(til => ({
+    ...til,
+    body: til.body.replaceAll(/\[(.+?)\]\((.+?)\.md\)/g, "[$1]($2/)")
+  }));
 }
 
 export async function getInfo(entry: CollectionEntry<"til">) {

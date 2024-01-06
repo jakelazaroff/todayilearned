@@ -1,8 +1,9 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+import { type CollectionEntry } from "astro:content";
+import { getInfo, getTILs } from "../../util/entry";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("til");
+  const entries = await getTILs();
   return entries.map(entry => {
     const [category, slug] = entry.slug.split("/");
     return { params: { category, slug }, props: entry };
@@ -14,7 +15,6 @@ type Props = CollectionEntry<"til">;
 import HTML from "../../layout/HTML.astro";
 import Layout from "../../layout/Layout.astro";
 import Info from "../../component/Info.astro";
-import { getInfo } from "../../util/entry";
 
 const info = await getInfo(Astro.props);
 const { Content } = await Astro.props.render();
