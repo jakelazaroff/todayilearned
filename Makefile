@@ -13,7 +13,8 @@ build: clean link  ## Build for production
 	@bun run build
 
 link: ## Create symlinks for the `til` submodule in `src/content/til`
-	@git submodule foreach git pull --rebase origin main
+	@git submodule foreach git pull --rebase origin main || exit 0
+	@rm -rf ./src/content/til
 	@mkdir -p ./src/content/til
 	@for dir in $(dir $(wildcard til/*/.)); do ln -sf "../../../$$dir" "./src/content/til"; done
 
