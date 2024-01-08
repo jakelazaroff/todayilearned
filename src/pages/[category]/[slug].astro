@@ -22,6 +22,8 @@ const { Content } = await Astro.props.render();
 
 <HTML title={`[${info.category}] ${info.title}`} image={`../../og/${Astro.props.slug}.png`}>
   <Layout slug={Astro.props.slug}>
+    <a class="title" href="/">← Today I Learned</a>
+
     <article class="content" data-pagefind-body>
       <Content />
       <footer class="footer">
@@ -31,11 +33,23 @@ const { Content } = await Astro.props.render();
   </Layout>
 
   <style>
+    .title {
+      display: block;
+      font-family: var(--font-mono);
+      font-style: italic;
+      text-transform: lowercase;
+      margin-bottom: 8px;
+
+      @media (min-width: 60rem) {
+        display: none;
+      }
+    }
+
     .content {
-      max-width: max(960px, 80ch);
+      max-width: max(60rem, 80ch);
       overflow-x: hidden;
 
-      @media (min-width: 960px) {
+      @media (min-width: 60rem) {
         overflow: visible;
       }
     }
