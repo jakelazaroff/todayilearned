@@ -18,7 +18,7 @@ export async function GET(ctx) {
       .slice(0, 10)
       .map(post => ({
         title: post.title,
-        content: marked.parse(post.body),
+        content: marked.parse(post.body.replaceAll(/^# .+/g, "")),
         categories: [post.category],
         pubDate: new Date(post.date.getTime() + new Date().getTimezoneOffset() * 60_000),
         link: `/${post.slug}`
