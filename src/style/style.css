@@ -18,17 +18,17 @@
     --pagefind-ui-border: var(--color-border) !important;
   }
 
-  ::-webkit-scrollbar {
+  .scroll::-webkit-scrollbar {
     width: 1rem;
   }
 
-  ::-webkit-scrollbar-thumb {
+  .scroll::-webkit-scrollbar-thumb {
     border-radius: 1rem;
     background-color: color-mix(in srgb, var(--color-text-supporting) 30%, transparent);
     border: 4px solid white;
   }
 
-  ::-webkit-scrollbar-thumb:hover {
+  .scroll::-webkit-scrollbar-thumb:hover {
     background-color: color-mix(in srgb, var(--color-text-supporting) 50%, transparent);
   }
 

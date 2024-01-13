@@ -10,7 +10,7 @@ interface Props {
 ---
 
 <div class="wrapper">
-  <nav class="nav">
+  <nav class="nav scroll">
     <a class="skip" href="#content">Skip to content</a>
 
     <a class="title" href="/"> Today I Learned</a>
@@ -42,6 +42,7 @@ interface Props {
   .wrapper {
     --sidebar-width: 0;
     display: grid;
+    width: 100%;
     grid-template:
       "main" 1fr
       "nav" auto / auto;
