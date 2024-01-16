@@ -5,7 +5,8 @@
   :root {
     --font-body: "Overpass", system-ui, sans-serif;
     --font-mono: "JetBrains Mono", mono;
-    --color-primary: #845ef7;
+    --color-primary: #5c52ff;
+    --color-primary: color(display-p3 0.35 0.3 1);
     --color-border: #0002;
     --color-text: #000;
     --color-text-supporting: #0009;
