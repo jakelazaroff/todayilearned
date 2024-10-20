@@ -1,7 +1,8 @@
+import { readFile, readdir } from "node:fs/promises";
+import { resolve } from "node:path";
+
 import type { APIRoute } from "astro";
 import SVGSpriter from "svg-sprite";
-import { readdir, readFile } from "node:fs/promises";
-import { resolve } from "node:path";
 
 interface Result {
   symbol: { sprite: { contents: Buffer } };

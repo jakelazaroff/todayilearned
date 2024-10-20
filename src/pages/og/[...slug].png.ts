@@ -1,17 +1,18 @@
-import { getEntryBySlug, type CollectionEntry } from "astro:content";
+import { type CollectionEntry, getEntryBySlug } from "astro:content";
+
 import { getInfo, getTILs } from "../../util/entry";
 
 export async function getStaticPaths() {
   const entries = await getTILs();
   return entries.map(post => ({
-    params: { slug: post.slug }
+    params: { slug: post.slug },
   }));
 }
 
 import fs from "node:fs/promises";
+import type { APIRoute } from "astro";
 import satori from "satori";
 import sharp from "sharp";
-import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async function GET({ params }) {
   const overpass = await fs.readFile("./src/style/overpass-regular.ttf");
@@ -35,7 +36,7 @@ export const GET: APIRoute = async function GET({ params }) {
           fontFamily: "Overpass",
           letterSpacing: "-1ch",
           lineHeight: 1,
-          textWrap: "balanced"
+          textWrap: "balanced",
         },
         children: [
           { type: "div", props: { style: { fontSize: 32 }, children: "Today I Learned" } },
@@ -48,18 +49,18 @@ export const GET: APIRoute = async function GET({ params }) {
                   type: "p",
                   props: {
                     style: { fontSize: 32, fontFamily: "JetBrains Mono", color: "#00000066" },
-                    children: info.category
-                  }
+                    children: info.category,
+                  },
                 },
                 {
                   type: "div",
-                  props: { style: { fontSize: 64, fontWeight: 700 }, children: info.title }
-                }
-              ]
-            }
-          }
-        ]
-      }
+                  props: { style: { fontSize: 64, fontWeight: 700 }, children: info.title },
+                },
+              ],
+            },
+          },
+        ],
+      },
     },
     {
       width: 1200,
@@ -67,9 +68,9 @@ export const GET: APIRoute = async function GET({ params }) {
       fonts: [
         { name: "Overpass", data: overpass, weight: 400, style: "normal" },
         { name: "Overpass", data: overpassBold, weight: 700, style: "normal" },
-        { name: "JetBrains Mono", data: jetbrainsmono, weight: 400, style: "italic" }
-      ]
-    }
+        { name: "JetBrains Mono", data: jetbrainsmono, weight: 400, style: "italic" },
+      ],
+    },
   );
 
   const png = await sharp(Buffer.from(svg)).png().toBuffer();

@@ -1,5 +1,6 @@
-import { getCollection, type CollectionEntry } from "astro:content";
-import { exec, type ExecOptions } from "node:child_process";
+import { type ExecOptions, exec } from "node:child_process";
+
+import { type CollectionEntry, getCollection } from "astro:content";
 import { marked } from "marked";
 
 function run(cmd: string, options?: ExecOptions) {
@@ -20,7 +21,7 @@ export async function getTILs() {
   const tils = await getCollection("til");
   return tils.map(til => ({
     ...til,
-    body: til.body.replaceAll(/\[(.+?)\]\((.+?)\.md\)/g, "[$1]($2/)")
+    body: til.body.replaceAll(/\[(.+?)\]\((.+?)\.md\)/g, "[$1]($2/)"),
   }));
 }
 
@@ -36,11 +37,11 @@ export async function getInfo(entry: CollectionEntry<"til">) {
       entry.body
         .split("\n")
         .filter(Boolean)
-        .find(line => !line.startsWith("#")) ?? ""
+        .find(line => !line.startsWith("#")) ?? "",
     ),
     date: new Date(Number(await created(entry.slug)) * 1000),
     category: entry.slug.split("/").at(0) ?? "",
     slug: entry.slug as string,
-    href: "/" + entry.slug + "/"
+    href: `/${entry.slug}/`,
   };
 }

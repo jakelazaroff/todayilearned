@@ -1,7 +1,7 @@
 ---
+import Info from "../component/Info.astro";
 import HTML from "../layout/HTML.astro";
 import Layout from "../layout/Layout.astro";
-import Info from "../component/Info.astro";
 import { getInfo, getTILs } from "../util/entry";
 
 const entries = await getTILs().then(entries => Promise.all(entries.map(getInfo)));
