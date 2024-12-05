@@ -1,27 +1,30 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { type CollectionEntry, render } from "astro:content";
 import { getInfo, getTILs } from "../../util/entry";
 
 export async function getStaticPaths() {
   const entries = await getTILs();
-  return entries.map(entry => {
-    const [category, slug] = entry.slug.split("/");
+  const paths = entries.map(entry => {
+    const [category, slug] = entry.id.split("/");
     return { params: { category, slug }, props: entry };
   });
+
+  console.log(paths);
+  return paths;
 }
 
 type Props = CollectionEntry<"til">;
 
+import Info from "../../component/Info.astro";
 import HTML from "../../layout/HTML.astro";
 import Layout from "../../layout/Layout.astro";
-import Info from "../../component/Info.astro";
 
 const info = await getInfo(Astro.props);
-const { Content } = await Astro.props.render();
+const { Content } = await render(Astro.props);
 ---
 
-<HTML title={`[${info.category}] ${info.title}`} image={`../../og/${Astro.props.slug}.png`}>
-  <Layout slug={Astro.props.slug}>
+<HTML title={`[${info.category}] ${info.title}`} image={`../../og/${Astro.props.id}.png`}>
+  <Layout id={Astro.props.id}>
     <a class="title" href="/">← Today I Learned</a>
 
     <article class="content" data-pagefind-body>

@@ -1,11 +1,11 @@
-import { type CollectionEntry, getEntryBySlug } from "astro:content";
+import { type CollectionEntry, getEntry } from "astro:content";
 
 import { getInfo, getTILs } from "../../util/entry";
 
 export async function getStaticPaths() {
   const entries = await getTILs();
   return entries.map(post => ({
-    params: { slug: post.slug }
+    params: { id: post.id },
   }));
 }
 
@@ -19,7 +19,9 @@ export const GET: APIRoute = async function GET({ params }) {
   const overpassBold = await fs.readFile("./src/style/overpass-bold.ttf");
   const jetbrainsmono = await fs.readFile("./src/style/jetbrainsmono-italic.ttf");
 
-  const entry = await getEntryBySlug("til", params.slug as CollectionEntry<"til">["slug"]);
+  const entry = await getEntry("til", params.id || "");
+  if (!entry) return new Response(null, { status: 404 });
+
   const info = await getInfo(entry);
 
   const svg = await satori(
@@ -36,12 +38,12 @@ export const GET: APIRoute = async function GET({ params }) {
           fontFamily: "Overpass",
           letterSpacing: "-1ch",
           lineHeight: 1,
-          textWrap: "balanced"
+          textWrap: "balanced",
         },
         children: [
           {
             type: "div",
-            props: { style: { fontSize: 32 }, children: "Today I Learned" }
+            props: { style: { fontSize: 32 }, children: "Today I Learned" },
           },
           {
             type: "div",
@@ -49,7 +51,7 @@ export const GET: APIRoute = async function GET({ params }) {
               style: {
                 display: "flex",
                 flexDirection: "column",
-                marginTop: "auto"
+                marginTop: "auto",
               },
               children: [
                 {
@@ -58,23 +60,23 @@ export const GET: APIRoute = async function GET({ params }) {
                     style: {
                       fontSize: 32,
                       fontFamily: "JetBrains Mono",
-                      color: "#00000066"
+                      color: "#00000066",
                     },
-                    children: info.category
-                  }
+                    children: info.category,
+                  },
                 },
                 {
                   type: "div",
                   props: {
                     style: { fontSize: 64, fontWeight: 700 },
-                    children: info.title
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
+                    children: info.title,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
     },
     {
       width: 1200,
@@ -86,10 +88,10 @@ export const GET: APIRoute = async function GET({ params }) {
           name: "JetBrains Mono",
           data: jetbrainsmono,
           weight: 400,
-          style: "italic"
-        }
-      ]
-    }
+          style: "italic",
+        },
+      ],
+    },
   );
 
   const png = await sharp(Buffer.from(svg)).png().toBuffer();
