@@ -1,7 +1,7 @@
 import rss from "@astrojs/rss";
 import { marked } from "marked";
 
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 import { getInfo, getTILs } from "../util/entry";
 
 /** @param {import("astro").APIContext} ctx */
@@ -21,7 +21,7 @@ export async function GET(ctx) {
         content: marked.parse(post.body.replaceAll(/^# .+/g, "")),
         categories: [post.category],
         pubDate: new Date(post.date.getTime() + new Date().getTimezoneOffset() * 60_000),
-        link: `/${post.slug}`
-      }))
+        link: `/${post.id}`,
+      })),
   });
 }

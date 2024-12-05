@@ -12,8 +12,10 @@ function run(cmd: string, options?: ExecOptions) {
   });
 }
 
-async function created(slug: string) {
-  const res = await run(`git log --follow --format=%ad --date=unix ${slug}.md`, { cwd: "./til" });
+async function created(id: string) {
+  const res = await run(`git log --follow --format=%ad --date=unix ${id}.md`, {
+    cwd: "./til",
+  });
   return res.stdout.toString().trim().split("\n").at(-1) || "";
 }
 
@@ -21,7 +23,7 @@ export async function getTILs() {
   const tils = await getCollection("til");
   return tils.map(til => ({
     ...til,
-    body: til.body.replaceAll(/\[(.+?)\]\((.+?)\.md\)/g, "[$1]($2/)"),
+    body: til.body?.replaceAll(/\[(.+?)\]\((.+?)\.md\)/g, "[$1]($2/)"),
   }));
 }
 
@@ -29,19 +31,19 @@ export async function getInfo(entry: CollectionEntry<"til">) {
   return {
     title:
       entry.body
-        .match(/^# (.+)$/m)
+        ?.match(/^# (.+)$/m)
         ?.at(1)
         ?.replaceAll("`", "") ?? "",
     body: entry.body,
     excerpt: marked.parse(
       entry.body
-        .split("\n")
+        ?.split("\n")
         .filter(Boolean)
         .find(line => !line.startsWith("#")) ?? "",
     ),
-    date: new Date(Number(await created(entry.slug)) * 1000),
-    category: entry.slug.split("/").at(0) ?? "",
-    slug: entry.slug as string,
-    href: `/${entry.slug}/`,
+    date: new Date(Number(await created(entry.id)) * 1000),
+    category: entry.id.split("/").at(0) ?? "",
+    id: entry.id as string,
+    href: `/${entry.id}/`,
   };
 }

@@ -14,7 +14,7 @@ for (const entry of entries) {
 }
 
 interface Props {
-  slug?: string;
+  id?: string;
 }
 ---
 
@@ -25,11 +25,7 @@ interface Props {
         <dt class="header">{category}</dt>
         {links.map(link => (
           <dd class="item">
-            <a
-              class="link"
-              class:list={{ active: link.slug === Astro.props.slug }}
-              href={link.href}
-            >
+            <a class="link" class:list={{ active: link.id === Astro.props.id }} href={link.href}>
               {link.title}
             </a>
           </dd>

@@ -5,7 +5,7 @@ import Icon from "../component/Icon.astro";
 import Navigation from "../component/Navigation.astro";
 
 interface Props {
-  slug?: string;
+  id?: string;
 }
 ---
 
@@ -17,7 +17,7 @@ interface Props {
     <p class="blurb">A collection of useful things I've learned.</p>
     <p class="blurb">By <a href="https://jakelazaroff.com">Jake Lazaroff</a></p>
     <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false }} />
-    <Navigation slug={Astro.props.slug} />
+    <Navigation id={Astro.props.id} />
     <ul class="footer">
       <li class="footer-item">
         <a class="footer-link" href="https://github.com/jakelazaroff/todayilearned">

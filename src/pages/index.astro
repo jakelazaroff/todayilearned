@@ -27,9 +27,11 @@ const entries = await getTILs().then(entries => Promise.all(entries.map(getInfo)
               <li class="entry">
                 <Info date={entry.date} category={entry.category} />
 
-                <a class="title" href={entry.href}>
-                  {entry.title}
-                </a>
+                <h3 class="title">
+                  <a class="title-link" href={entry.href}>
+                    {entry.title}
+                  </a>
+                </h3>
 
                 <Fragment set:html={entry.excerpt} />
               </li>
@@ -56,8 +58,11 @@ const entries = await getTILs().then(entries => Promise.all(entries.map(getInfo)
   }
 
   .title {
-    display: block;
     margin-block: 4px;
+  }
+
+  .title-link {
+    display: block;
   }
 
   .entry > :global(p) {
