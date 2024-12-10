@@ -20,18 +20,26 @@ interface Props {
 
 <dl class="nav">
   {
-    [...toc.entries()].map(([category, links]) => (
-      <>
-        <dt class="header">{category}</dt>
-        {links.map(link => (
-          <dd class="item">
-            <a class="link" class:list={{ active: link.id === Astro.props.id }} href={link.href}>
-              {link.title}
-            </a>
-          </dd>
-        ))}
-      </>
-    ))
+    [...toc.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([category, links]) => (
+        <>
+          <dt class="header">{category}</dt>
+          {links
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map(link => (
+              <dd class="item">
+                <a
+                  class="link"
+                  class:list={{ active: link.id === Astro.props.id }}
+                  href={link.href}
+                >
+                  {link.title}
+                </a>
+              </dd>
+            ))}
+        </>
+      ))
   }
 </dl>
 

@@ -13,18 +13,15 @@ function run(cmd: string, options?: ExecOptions) {
 }
 
 async function created(id: string) {
-  const res = await run(`git log --follow --format=%ad --date=unix ${id}.md`, {
-    cwd: "./til",
-  });
+  const res = await run(`git log --follow --format=%ad --date=unix ${id}.md`, { cwd: "./til" });
   return res.stdout.toString().trim().split("\n").at(-1) || "";
 }
 
 export async function getTILs() {
   const tils = await getCollection("til");
-  return tils.map(til => ({
-    ...til,
-    body: til.body?.replaceAll(/\[(.+?)\]\((.+?)\.md\)/g, "[$1]($2/)"),
-  }));
+  return tils
+    .filter(til => til.id.includes("/"))
+    .map(til => ({ ...til, body: til.body?.replaceAll(/\[(.+?)\]\((.+?)\.md\)/g, "[$1]($2/)") }));
 }
 
 export async function getInfo(entry: CollectionEntry<"til">) {

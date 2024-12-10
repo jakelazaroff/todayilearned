@@ -1,12 +1,10 @@
-import { type CollectionEntry, getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
 import { getInfo, getTILs } from "../../util/entry";
 
 export async function getStaticPaths() {
   const entries = await getTILs();
-  return entries.map(post => ({
-    params: { id: post.id },
-  }));
+  return entries.map(post => ({ params: { id: post.id }, props: post }));
 }
 
 import * as fs from "node:fs/promises";
@@ -14,15 +12,12 @@ import type { APIRoute } from "astro";
 import satori from "satori";
 import sharp from "sharp";
 
-export const GET: APIRoute = async function GET({ params }) {
+export const GET: APIRoute<CollectionEntry<"til">> = async function GET({ props }) {
   const overpass = await fs.readFile("./src/style/overpass-regular.ttf");
   const overpassBold = await fs.readFile("./src/style/overpass-bold.ttf");
   const jetbrainsmono = await fs.readFile("./src/style/jetbrainsmono-italic.ttf");
 
-  const entry = await getEntry("til", params.id || "");
-  if (!entry) return new Response(null, { status: 404 });
-
-  const info = await getInfo(entry);
+  const info = await getInfo(props);
 
   const svg = await satori(
     {

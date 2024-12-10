@@ -9,7 +9,6 @@ export async function getStaticPaths() {
     return { params: { category, slug }, props: entry };
   });
 
-  console.log(paths);
   return paths;
 }
 

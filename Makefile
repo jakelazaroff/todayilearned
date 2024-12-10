@@ -6,10 +6,10 @@
 clean:
 	@rm -rf dist
 
-dev: link  ## Run the development webserver
+dev:  ## Run the development webserver
 	@bun dev
 
-build: clean link  ## Build for production
+build: clean  ## Build for production
 	@bun run build
 
 link: ## Create symlinks for the `til` submodule in `src/content/til`
