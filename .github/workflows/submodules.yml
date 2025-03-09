@@ -21,7 +21,10 @@ jobs:
 
       - name: Push changes
         run: |
+          git remote set-url origin https://${GITHUB_ACTOR}:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git
           git config --global user.email "actions@users.noreply.github.com"
           git config --global user.name "tilbot"
           git diff --quiet || git commit --all --message "Update submodules"
           git push
+        env:
+          TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
