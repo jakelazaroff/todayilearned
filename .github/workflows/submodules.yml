@@ -28,3 +28,20 @@ jobs:
           git push
         env:
           TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan deploy.jakelazaroff.com >> ~/.ssh/known_hosts
+          echo "Host deploy.jakelazaroff.com
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes" >> ~/.ssh/config
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Deploy
+        run: |
+          git remote set-url deploy deploy@deploy.jakelazaroff.com:/srv/deploy/til/repo.git
+          git push deploy main
