@@ -42,5 +42,5 @@ jobs:
 
       - name: Deploy
         run: |
-          git remote add deploy deploy@deploy.jakelazaroff.com:/srv/deploy/til/repo.git
+          git remote add deploy deploy@deploy.jakelazaroff.com:/srv/deploy/til.jakelazaroff.com/repo.git
           git push deploy main
